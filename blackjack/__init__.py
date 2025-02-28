@@ -126,11 +126,12 @@ class App(ctk.CTk):
             pass
 
     def _newUserDetected(self):
-        frame_user = ctk.CTkFrame(self, width=200, height=200)
-        frame_user.pack(pady=100)
+        frame_user = ctk.CTkFrame(self, width=250, height=500,corner_radius=20,fg_color=cBACKGROUND_NEW_USER)
+        frame_user.propagate(False)
+        frame_user.pack(pady=200)
 
-        username_entry = ctk.CTkEntry(frame_user, placeholder_text="enter username")
-        username_entry.pack(pady=20)
+        username_entry = ctk.CTkEntry(frame_user, placeholder_text="enter username",width=210, justify="center")
+        username_entry.pack(pady=(70,50))
 
         def on_enter():
             username = username_entry.get()
@@ -141,8 +142,8 @@ class App(ctk.CTk):
                 self.__dataFile(1)
                 frame_user.pack_forget()
 
-        enter_button = ctk.CTkButton(frame_user, text="Enter", command=on_enter)
-        enter_button.pack(pady=20)
+        enter_button = ctk.CTkButton(frame_user, text="Enter", command=on_enter,width=210)
+        enter_button.pack(pady=(0,50))
 
     def returnData(self):
         return self.data
