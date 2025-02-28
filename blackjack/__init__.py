@@ -2,43 +2,58 @@ import customtkinter as ctk
 import os
 import json
 import sys
+from PIL import Image, ImageTk
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from UX.theme.colors import BG_COLOR
+from UX.theme.colors import *
+from UX.theme.fonts import *
 
 class App(ctk.CTk):
 
     def __init__(self, window_bar=None):
         super().__init__()
         self.window_bar = True if window_bar is None else False
-
         self.maximized = False
         self.normal_geometry = None
 
         self.__dataFile(0)
         self._dataUpdate()
 
+        self.backgroundImage()
+
         if self.window_bar:
             self.titleBar()
 
         self._userProcess()
 
+    def backgroundImage(self):
+        self.background_image = Image.open("UX/midia/bg_image_standart.png")
+        self.background_photo = ImageTk.PhotoImage(self.background_image)
+        self.background_label = ctk.CTkLabel(self, image=self.background_photo, text="")
+        self.background_label.place(relwidth=1, relheight=1)  
+        self.background_label.lower() 
+
     def titleBar(self):
-        self.title_bar = ctk.CTkFrame(self, height=40, corner_radius=0)
+        self.title_bar = ctk.CTkFrame(self, height=50, corner_radius=0, fg_color=cTITLE_BAR)
         self.title_bar.pack(fill="x", side="top")
 
-        minimize_button = ctk.CTkButton(self.title_bar, text="_", width=30, height=30, command=self.simulateMinimize)
+        close_button = ctk.CTkButton(self.title_bar, text="X", width=30, height=30, fg_color="red", hover_color="darkred", font=(fTITLE_BAR,16,"bold"),
+        command=self.destroy)
+        close_button.pack(side="right",padx=5, pady=5)
+
+        minimize_button = ctk.CTkButton(self.title_bar, text="_", width=30, height=30, font=(fTITLE_BAR,16,"bold"), 
+        command=self.simulateMinimize)
         minimize_button.pack(side="right", padx=5, pady=5)
 
-        self.maximize_button = ctk.CTkButton(self.title_bar, text="□", width=30, height=30, command=self.toggle_maximize)
+        self.maximize_button = ctk.CTkButton(self.title_bar, text="□", width=30, height=30, font=(fTITLE_BAR,16,"bold"),
+         command=self.toggle_maximize)
         self.maximize_button.pack(side="right", padx=5, pady=5)
 
-        close_button = ctk.CTkButton(self.title_bar, text="X", width=30, height=30, fg_color="red", hover_color="darkred", command=self.destroy)
-        close_button.pack(side="right", padx=5, pady=5)
+        
 
-        title_label = ctk.CTkLabel(self.title_bar, text="Bueno's Casino")
-        title_label.pack(side="left", padx=10)
+        title_label = ctk.CTkLabel(self.title_bar, text="Casino's Simulator", text_color=cTITLE_BAR_LABEL,font=(fTITLE_BAR,16,"bold"))
+        title_label.pack(side="left",pady=10,padx=(10,0))
 
     def run(self):
         self.overrideredirect(self.window_bar)
@@ -46,7 +61,7 @@ class App(ctk.CTk):
         #? centralize the window on the run
         self.screen_width = self.winfo_screenwidth()
         self.screen_height = self.winfo_screenheight()
-        self.geometry(f"1000x500+{int((self.screen_width - 1000) / 2)}+{int((self.screen_height - 500) / 2)}")
+        self.geometry(f"1500x700+{int((self.screen_width - 1500) / 2)}+{int((self.screen_height - 700) / 2)}")
 
         self.title("Bueno's Casino")
         self.mainloop()
