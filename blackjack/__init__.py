@@ -2,8 +2,8 @@ import customtkinter as ctk
 import os
 import json
 import sys
+import pywinstyles
 from PIL import Image, ImageTk
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from UX.theme.colors import *
@@ -35,15 +35,15 @@ class App(ctk.CTk):
         self.background_label.lower() 
 
     def titleBar(self):
-        self.title_bar = ctk.CTkFrame(self, height=50, corner_radius=0, fg_color=cTITLE_BAR)
+        self.title_bar = ctk.CTkFrame(self, height=50, corner_radius=0, fg_color=cTITLE_BAR_BG)
         self.title_bar.pack(fill="x", side="top")
 
-        close_button = ctk.CTkButton(self.title_bar, text="X", width=30, height=30, fg_color="red", hover_color="darkred", font=(fTITLE_BAR,16,"bold"),
-        command=self.destroy)
+        close_button = ctk.CTkButton(self.title_bar, text="X", width=30, height=30, fg_color="red", hover_color="darkred", 
+        font=(fTITLE_BAR_BUTTONS,16,"bold"),command=self.destroy)
         close_button.pack(side="right",padx=5, pady=5)
 
-        minimize_button = ctk.CTkButton(self.title_bar, text="_", width=30, height=30, font=(fTITLE_BAR,16,"bold"), 
-        command=self.simulateMinimize)
+        minimize_button = ctk.CTkButton(self.title_bar, text="_", width=30, height=30, 
+        font=(fTITLE_BAR_BUTTONS,16,"bold"), command=self.simulateMinimize)
         minimize_button.pack(side="right", padx=5, pady=5)
 
         self.maximize_button = ctk.CTkButton(self.title_bar, text="□", width=30, height=30, font=(fTITLE_BAR,16,"bold"),
@@ -52,16 +52,15 @@ class App(ctk.CTk):
 
         
 
-        title_label = ctk.CTkLabel(self.title_bar, text="Casino's Simulator", text_color=cTITLE_BAR_LABEL,font=(fTITLE_BAR,16,"bold"))
+        title_label = ctk.CTkLabel(self.title_bar, text="Casino's Simulator", text_color=cTITLE_BAR_TXT,font=(fTITLE_BAR,16,"bold"))
         title_label.pack(side="left",pady=10,padx=(10,0))
 
     def run(self):
         self.overrideredirect(self.window_bar)
-
         #? centralize the window on the run
         self.screen_width = self.winfo_screenwidth()
         self.screen_height = self.winfo_screenheight()
-        self.geometry(f"1500x700+{int((self.screen_width - 1500) / 2)}+{int((self.screen_height - 700) / 2)}")
+        self.geometry(f"1200x700+{int((self.screen_width - 1200) / 2)}+{int((self.screen_height - 700) / 2)}")
 
         self.title("Bueno's Casino")
         self.mainloop()
@@ -122,28 +121,49 @@ class App(ctk.CTk):
         if self.username is None:
             self._newUserDetected()
         else:
-            # self._gameMenu()
+            #! self._gameMenu()
             pass
 
     def _newUserDetected(self):
-        frame_user = ctk.CTkFrame(self, width=250, height=500,corner_radius=20,fg_color=cBACKGROUND_NEW_USER)
-        frame_user.propagate(False)
-        frame_user.pack(pady=200)
+        welcome_label = ctk.CTkLabel(self,text="Welcome new User!\nplease insert your nickname to start",fg_color="#000001"
+        ,font=(fWELCOME_LABEL,30,"bold"),text_color=cWELCOME_TXT,)
+        welcome_label.pack(pady=(50,0))
+        pywinstyles.set_opacity(welcome_label,color="#000001")
 
-        username_entry = ctk.CTkEntry(frame_user, placeholder_text="enter username",width=210, justify="center")
-        username_entry.pack(pady=(70,50))
+        frame_user = ctk.CTkFrame(self, width=250, height=200,corner_radius=20,
+        fg_color=cNEW_USER_BG,bg_color="#000001")
+
+        frame_user.propagate(False)
+        frame_user.pack(pady=(100,200)) #! pack
+
+        pywinstyles.set_opacity(frame_user, color="#000001") #! pwinsttyles.set_opacity
+
+        username_entry = ctk.CTkEntry(frame_user, placeholder_text="ENTER USERNAME",
+        width=210, justify="center",fg_color=cNEW_USER_ENTRY_BG,border_color=cNEW_USER_ENTRY_CB,
+        font=(fNEW_USER_BUTTONS,12,"bold")) #! config
+
+        username_entry.pack(pady=(60,10)) #! pack
 
         def on_enter():
             username = username_entry.get()
-            if any(char.isnumeric() or char.isspace() for char in username):
-                enter_button.configure(fg_color="red")
+            if any(char.isnumeric() for char in username):
+                enter_button.configure(text="INVALID NAME")
+                error_label = ctk.CTkLabel(frame_user, text="error: contain space(s)")
+                error.pack()
+            elif all(char.isspace() for char in username):
+                enter_button.configure(text="INVALID NAME")
+                error_label = ctk.CTkLabel(frame_user, text="error: contain space(s)")
             else:
                 self.data["data"]["user_data"]["username"] = username
                 self.__dataFile(1)
                 frame_user.pack_forget()
+                welcome_label.pack_forget()
 
-        enter_button = ctk.CTkButton(frame_user, text="Enter", command=on_enter,width=210)
-        enter_button.pack(pady=(0,50))
+        enter_button = ctk.CTkButton(frame_user, text="ENTER", command=on_enter,width=210,
+        border_color=NEW_USER_BUTTON_CB,border_width=2,font=(fNEW_USER_BUTTONS,12,"bold"),fg_color=cNEW_USER_BUTTON_BG,
+        hover_color=cNEW_USER_BUTTON_HR) #! config
+
+        enter_button.pack(pady=(10,60)) #! pack
 
     def returnData(self):
         return self.data

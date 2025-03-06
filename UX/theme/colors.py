@@ -1,21 +1,33 @@
 import customtkinter as ctk
-
 #? file address UX/theme/colors.py
 #? file for variables holding hex string values
+
+#? acronym for variable name
+    #? TXT = text
+    #? BG = background
+    #? HR = hover
+    #? CB = border 
 
 #? defining the colors
 
 #? title bar colors
-cTITLE_BAR = "#212021"
-cTITLE_BAR_LABEL = "#FF0000"  #? title bar color
-cBACKGROUND_ROOT = "#FFD700"   #? background of he app color
+cTITLE_BAR_BG = "#212021" 
+cTITLE_BAR_TXT = "#FF0000"
+#? new users frame colors
+cNEW_USER_BG = "#212021"
+cNEW_USER_ENTRY_BG = "#4f4d4f"
+cNEW_USER_ENTRY_CB = NEW_USER_BUTTON_CB = "#3b393b"
+cNEW_USER_BUTTON_HR = "#FF0000"
+cNEW_USER_BUTTON_BG = "#212021"
+cNEW_USER_BUTTON_TXT = "#FF0000"
+cWELCOME_TXT = "#FF0000"
 
-#? new users colors
-cBACKGROUND_NEW_USER = "#212021"
-cNEW_USER_ENTRY = ""
-
-
-ALL_COLORS = [cTITLE_BAR,cTITLE_BAR_LABEL, cBACKGROUND_ROOT, ]
+ALL_COLORS = [
+    cTITLE_BAR_BG,
+    cTITLE_BAR_TXT, 
+    cNEW_USER_ENTRY_BG, 
+    cNEW_USER_ENTRY_CB
+    ]
 
 def testColors():
     root = ctk.CTk()
@@ -31,4 +43,5 @@ def testColors():
     root.mainloop()
 
 if __name__ == "__main__":
-    testColors()
+    # testColors()
+    pass
