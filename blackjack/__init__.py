@@ -28,7 +28,7 @@ class App(ctk.CTk):
         self._userProcess()
 
     def backgroundImage(self):
-        self.background_image = Image.open("UX/midia/bg_image_standart.png")
+        self.background_image = Image.open("UX/midia/bg_image_start.png")
         self.background_photo = ImageTk.PhotoImage(self.background_image)
         self.background_label = ctk.CTkLabel(self, image=self.background_photo, text="")
         self.background_label.place(relwidth=1, relheight=1)  
@@ -147,12 +147,16 @@ class App(ctk.CTk):
         def on_enter():
             username = username_entry.get()
             if any(char.isnumeric() for char in username):
-                enter_button.configure(text="INVALID NAME")
-                error_label = ctk.CTkLabel(frame_user, text="error: contain space(s)")
-                error.pack()
-            elif all(char.isspace() for char in username):
-                enter_button.configure(text="INVALID NAME")
-                error_label = ctk.CTkLabel(frame_user, text="error: contain space(s)")
+                error_label.configure(text="error: cointain number(s)")
+            elif any(char.isspace() for char in username):
+                error_label.configure(text="error: contain space(s)")
+
+            elif not username:
+                error_label.configure(text="error: insert a username")
+
+            elif len(username) > 10:
+                error_label.configure(text="error: username too long (10 chars max)")
+
             else:
                 self.data["data"]["user_data"]["username"] = username
                 self.__dataFile(1)
@@ -163,8 +167,9 @@ class App(ctk.CTk):
         border_color=NEW_USER_BUTTON_CB,border_width=2,font=(fNEW_USER_BUTTONS,12,"bold"),fg_color=cNEW_USER_BUTTON_BG,
         hover_color=cNEW_USER_BUTTON_HR) #! config
 
-        enter_button.pack(pady=(10,60)) #! pack
-
+        enter_button.pack(pady=(10,10)) #! pack
+        error_label = ctk.CTkLabel(frame_user, text="", text_color="red")
+        error_label.pack()
     def returnData(self):
         return self.data
 
