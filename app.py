@@ -1,4 +1,4 @@
-from blackjack.__main__ import *
+from archives.menu.__init__ import App
 
-app = App() #? -> True/None = remove windown decoration, False = default
-app.run() 
+app = App()
+app.run

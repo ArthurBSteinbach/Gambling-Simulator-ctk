@@ -2,4 +2,4 @@
 
 @REM pip install Image
 @REM pip install customtkinter
-pip install pywinstyles
+@REM pip install pywinstyles

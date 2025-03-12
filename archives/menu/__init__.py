@@ -4,11 +4,13 @@ import json
 import sys
 import pywinstyles
 from PIL import Image, ImageTk
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from UX.theme.colors import *
-from UX.theme.fonts import *
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.append(project_root)
 
+from archives.UX.theme.colors import *
+from archives.UX.theme.fonts import *
+from archives.blackjack import Blackjack
 class App(ctk.CTk):
 
     def __init__(self, window_bar=None):
@@ -28,7 +30,7 @@ class App(ctk.CTk):
         self._userProcess()
 
     def backgroundImage(self):
-        self.background_image = Image.open("UX/midia/bg_image_start.png")
+        self.background_image = Image.open("archives/UX/midia/bg_image_start.png")
         self.background_photo = ImageTk.PhotoImage(self.background_image)
         self.background_label = ctk.CTkLabel(self, image=self.background_photo, text="")
         self.background_label.place(relwidth=1, relheight=1)  
