@@ -10,7 +10,7 @@ sys.path.append(project_root)
 
 from archives.UX.theme.colors import *
 from archives.UX.theme.fonts import *
-from archives.blackjack import Blackjack
+from archives.blackjack.__init__ import *
 class App(ctk.CTk):
 
     def __init__(self, window_bar=None):
@@ -28,7 +28,8 @@ class App(ctk.CTk):
             self.titleBar()
 
         self._userProcess()
-
+        from blackjack.__init__ import Menu
+        self.menu = Menu(self)
     def backgroundImage(self):
         self.background_image = Image.open("archives/UX/midia/bg_image_start.png")
         self.background_photo = ImageTk.PhotoImage(self.background_image)
